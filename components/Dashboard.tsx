@@ -2,155 +2,181 @@
 import React, { useEffect, useState } from 'react';
 import { UserStats } from '../types.ts';
 import { getFitnessInsights } from '../services/geminiService.ts';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area } from 'recharts';
 
 interface DashboardProps {
   stats: UserStats;
 }
 
 const macroData = [
-  { name: 'Protein', value: 35, color: '#6366F1' },
-  { name: 'Carbs', value: 45, color: '#F97316' },
+  { name: 'Protein', value: 30, color: '#4F46E5' },
+  { name: 'Carbs', value: 50, color: '#F97316' },
   { name: 'Fats', value: 20, color: '#10B981' },
 ];
 
+const weeklyBurn = [
+  { day: 'M', burn: 2100 },
+  { day: 'T', burn: 1800 },
+  { day: 'W', burn: 2400 },
+  { day: 'T', burn: 1600 },
+  { day: 'F', burn: 2800 },
+  { day: 'S', burn: 1900 },
+  { day: 'S', burn: 2200 },
+];
+
 const Dashboard: React.FC<DashboardProps> = ({ stats }) => {
-  const [insight, setInsight] = useState<string>("Analyzing your metrics...");
+  const [insight, setInsight] = useState<string>("Coach Zenith is calculating your recovery...");
 
   useEffect(() => {
     getFitnessInsights(stats).then(setInsight);
   }, [stats]);
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-1000">
-      {/* Editorial Header */}
-      <header className="flex items-end justify-between">
+    <div className="space-y-12 animate-in fade-in duration-700">
+      {/* Dynamic Hero Header */}
+      <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
         <div>
-          <h2 className="text-5xl font-black text-slate-900 tracking-tighter">Your Morning.</h2>
-          <p className="text-slate-400 font-bold mt-2 uppercase text-xs tracking-[0.2em]">Tuesday, 14 May 2024</p>
+          <h2 className="text-6xl font-black text-slate-900 tracking-tighter leading-tight">
+            Hello, <span className="text-indigo-600">Alex</span>
+          </h2>
+          <p className="text-slate-400 font-semibold mt-3 text-lg">You're <span className="text-slate-900">82%</span> through your weekly goal. Keep it up!</p>
         </div>
-        <div className="flex items-center space-x-4">
-           <button className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center hover:bg-slate-50 transition-colors">
-              <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-           </button>
-           <button className="bg-black text-white px-6 py-3.5 rounded-2xl font-bold text-sm hover:scale-105 active:scale-95 transition-all">New Activity</button>
+        <div className="flex gap-4">
+          <div className="widget-card bg-indigo-50 border-0 p-4 flex items-center space-x-4">
+            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+              <span className="text-xl">🔥</span>
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Daily Streak</p>
+              <p className="text-xl font-black text-indigo-900">14 Days</p>
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* Featured Insight */}
-      <div className="widget-card bg-gradient-to-br from-indigo-600 to-indigo-800 text-white border-0 p-10 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20" />
-        <div className="relative z-10 max-w-2xl">
-           <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-4 inline-block">Coach Insight</span>
-           <p className="text-2xl font-bold leading-snug">"{insight}"</p>
+      {/* AI Intelligence Banner - Floating Design */}
+      <div className="widget-card bg-slate-900 text-white border-0 p-10 relative overflow-hidden flex flex-col lg:flex-row items-center gap-10 shadow-2xl shadow-indigo-200">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/20 rounded-full blur-[100px] -mr-40 -mt-40" />
+        <div className="flex-1 relative z-10">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            <span className="text-xs font-black uppercase tracking-[0.3em] text-indigo-300">Live AI Analysis</span>
+          </div>
+          <p className="text-3xl font-bold leading-relaxed tracking-tight italic">"{insight}"</p>
         </div>
+        <button className="relative z-10 bg-white text-slate-900 px-10 py-5 rounded-[2rem] font-black text-sm hover:scale-105 active:scale-95 transition-all shadow-xl">
+          Get Training Plan
+        </button>
       </div>
 
-      {/* Main Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Primary Bento Grid with Colored Backgrounds */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         
-        {/* Step Progress */}
-        <div className="widget-card lg:col-span-1 p-8 flex flex-col justify-between h-72">
+        {/* Card 1: Steps (Emerald Aesthetic) */}
+        <div className="widget-card bg-[#ECFDF5] border-0 flex flex-col justify-between h-[340px]">
           <div className="flex justify-between items-start">
              <div>
-                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Steps Today</p>
-                <h3 className="text-4xl font-black text-slate-900">{stats.steps.toLocaleString()}</h3>
+                <p className="text-xs font-black text-emerald-600 uppercase tracking-widest mb-2">Total Steps</p>
+                <h3 className="text-5xl font-black text-emerald-900">{stats.steps.toLocaleString()}</h3>
              </div>
-             <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+             <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center shadow-md animate-float">
+                <span className="text-3xl">👟</span>
              </div>
           </div>
-          <div>
-            <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase mb-2">
-              <span>Progress</span>
-              <span>{Math.round((stats.steps / stats.stepGoal) * 100)}%</span>
+          <div className="bg-white/50 p-6 rounded-3xl">
+            <div className="flex justify-between items-end mb-4">
+              <span className="text-xs font-bold text-emerald-800 uppercase">Goal: {stats.stepGoal}</span>
+              <span className="text-2xl font-black text-emerald-900">{Math.round((stats.steps / stats.stepGoal) * 100)}%</span>
             </div>
-            <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
+            <div className="h-4 bg-emerald-100 rounded-full overflow-hidden">
               <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${(stats.steps / stats.stepGoal) * 100}%` }} />
             </div>
           </div>
         </div>
 
-        {/* Nutrition / Macros */}
-        <div className="widget-card lg:col-span-1 p-8 h-72 flex items-center">
-          <div className="w-1/2 h-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={macroData} innerRadius={50} outerRadius={70} paddingAngle={5} dataKey="value">
-                  {macroData.map((entry, index) => <Cell key={index} fill={entry.color} />)}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="w-1/2 space-y-4">
-             <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Nutrition</p>
-             {macroData.map(m => (
-               <div key={m.name} className="flex items-center justify-between">
-                 <div className="flex items-center">
-                   <div className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: m.color }} />
-                   <span className="text-xs font-bold text-slate-600">{m.name}</span>
-                 </div>
-                 <span className="text-xs font-black">{m.value}%</span>
-               </div>
-             ))}
-          </div>
+        {/* Card 2: Nutrition (Orange Aesthetic) */}
+        <div className="widget-card bg-[#FFF7ED] border-0 h-[340px] flex flex-col">
+           <p className="text-xs font-black text-orange-600 uppercase tracking-widest mb-8 text-center lg:text-left">Macronutrients</p>
+           <div className="flex-1 flex items-center">
+              <div className="w-1/2 h-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie data={macroData} innerRadius={60} outerRadius={85} paddingAngle={8} dataKey="value" stroke="none">
+                      {macroData.map((entry, index) => <Cell key={index} fill={entry.color} />)}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="w-1/2 space-y-5 px-4">
+                {macroData.map(m => (
+                  <div key={m.name} className="flex flex-col">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-black text-orange-900 uppercase">{m.name}</span>
+                      <span className="text-xs font-bold text-orange-400">{m.value}%</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-orange-100 rounded-full overflow-hidden">
+                      <div className="h-full rounded-full" style={{ backgroundColor: m.color, width: `${m.value}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+           </div>
         </div>
 
-        {/* Hydration */}
-        <div className="widget-card lg:col-span-1 p-8 h-72 flex flex-col justify-between bg-blue-50/30 border-blue-100/50">
-           <div className="flex justify-between items-start">
-              <div>
-                <p className="text-xs font-black text-blue-400 uppercase tracking-widest mb-1">Hydration</p>
-                <h3 className="text-4xl font-black text-blue-900">2.4 <span className="text-sm font-bold opacity-40">L</span></h3>
-              </div>
-              <span className="text-2xl">💧</span>
+        {/* Card 3: Energy Burn (Indigo Aesthetic) */}
+        <div className="widget-card bg-[#EEF2FF] border-0 h-[340px] flex flex-col justify-between">
+           <div>
+              <p className="text-xs font-black text-indigo-600 uppercase tracking-widest mb-1">Energy Burned</p>
+              <h3 className="text-5xl font-black text-indigo-900">{stats.calories} <span className="text-lg font-bold opacity-40">kcal</span></h3>
            </div>
-           <div className="flex space-x-1.5 h-24 items-end">
-              {[60, 40, 80, 50, 90, 70, 45].map((h, i) => (
-                <div key={i} className="flex-1 bg-blue-100 rounded-full relative overflow-hidden group">
-                   <div className="absolute bottom-0 w-full bg-blue-500 transition-all duration-1000" style={{ height: `${h}%` }} />
-                </div>
+           <div className="h-40 w-full -mx-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={weeklyBurn}>
+                  <defs>
+                    <linearGradient id="colorBurn" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#6366F1" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#6366F1" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <Area type="monotone" dataKey="burn" stroke="#4F46E5" strokeWidth={4} fill="url(#colorBurn)" />
+                </AreaChart>
+              </ResponsiveContainer>
+           </div>
+        </div>
+
+        {/* New Feature: Activity Heatmap (GitHub Style) - Light Violet Aesthetic */}
+        <div className="widget-card lg:col-span-2 bg-[#F5F3FF] border-0 p-10">
+           <div className="flex justify-between items-center mb-10">
+              <h4 className="text-2xl font-black text-violet-900">Training Consistency</h4>
+              <div className="flex space-x-2">
+                 <span className="text-[10px] font-bold text-violet-400 uppercase">Less</span>
+                 {[0.2, 0.4, 0.7, 1].map(v => <div key={v} className="w-3 h-3 rounded-sm bg-violet-600" style={{ opacity: v }} />)}
+                 <span className="text-[10px] font-bold text-violet-400 uppercase">More</span>
+              </div>
+           </div>
+           <div className="grid grid-cols-20 gap-2 h-32">
+              {Array.from({ length: 140 }).map((_, i) => (
+                <div key={i} className="bg-violet-600 rounded-sm hover:scale-125 transition-all cursor-pointer" style={{ opacity: Math.random() > 0.3 ? Math.random() : 0.05 }} />
               ))}
            </div>
-        </div>
-
-        {/* Sleep Score */}
-        <div className="widget-card lg:col-span-2 p-10 flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-12">
-           <div className="relative w-40 h-40">
-              <svg className="w-full h-full transform -rotate-90">
-                <circle cx="80" cy="80" r="70" stroke="#f1f5f9" strokeWidth="12" fill="transparent" />
-                <circle cx="80" cy="80" r="70" stroke="#6366f1" strokeWidth="12" fill="transparent" strokeDasharray="440" strokeDashoffset="110" strokeLinecap="round" />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                 <span className="text-4xl font-black text-indigo-900">84</span>
-                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sleep Score</span>
-              </div>
-           </div>
-           <div className="flex-1 grid grid-cols-2 gap-8">
-              <div>
-                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Time Asleep</p>
-                 <p className="text-2xl font-bold">7h 42m</p>
-              </div>
-              <div>
-                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Deep Sleep</p>
-                 <p className="text-2xl font-bold">1h 15m</p>
-              </div>
-              <div>
-                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Bedtime</p>
-                 <p className="text-2xl font-bold text-slate-400">11:15 PM</p>
-              </div>
-              <div>
-                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Wake up</p>
-                 <p className="text-2xl font-bold text-slate-400">07:05 AM</p>
-              </div>
+           <div className="mt-6 flex justify-between text-[10px] font-black text-violet-400 uppercase tracking-[0.2em]">
+              <span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
            </div>
         </div>
 
-        {/* Quick Action */}
-        <div className="widget-card lg:col-span-1 bg-slate-900 text-white flex flex-col justify-center items-center text-center p-8 border-0">
-           <h4 className="text-2xl font-bold mb-4">Ready to train?</h4>
-           <p className="text-slate-400 text-xs mb-8">Personalized HIIT session based on your recovery score.</p>
-           <button className="w-full bg-white text-black py-4 rounded-2xl font-black text-sm hover:bg-slate-100 transition-colors">Start HIIT Blast</button>
+        {/* Card 5: Hydration (Deep Blue Aesthetic) */}
+        <div className="widget-card bg-[#EFF6FF] border-0 p-8 flex flex-col justify-between">
+           <div className="flex justify-between items-start">
+              <h4 className="text-xl font-black text-blue-900 italic">Stay Hydrated.</h4>
+              <span className="text-3xl animate-bounce">💧</span>
+           </div>
+           <div className="text-center my-6">
+              <span className="text-7xl font-black text-blue-600">2.4</span>
+              <span className="text-xl font-bold text-blue-300 ml-2">Liters</span>
+           </div>
+           <button className="w-full bg-blue-600 text-white py-5 rounded-[1.5rem] font-black text-sm shadow-xl shadow-blue-200">
+             Log 250ml
+           </button>
         </div>
 
       </div>
