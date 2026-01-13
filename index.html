@@ -13,7 +13,7 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            background: radial-gradient(circle at top left, #2d3a3a 0%, #1a1a1a 100%);
+            background-color: #f3f4f6;
             min-height: 100vh;
         }
         .scroll-hide::-webkit-scrollbar {
@@ -23,13 +23,11 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .green-gradient {
-            background: linear-gradient(135deg, #a7c4bc 0%, #5e8b7e 100%);
+        .widget-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
     </style>
 <script type="importmap">
@@ -45,7 +43,7 @@
 }
 </script>
 </head>
-<body class="text-white overflow-x-hidden">
+<body class="text-gray-900 overflow-x-hidden">
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>
 </body>
