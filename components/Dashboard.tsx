@@ -8,12 +8,7 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ stats }) => {
-  const [insight, setInsight] = useState<string>("Loading health tips...");
-  const currentDate = new Date().toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric'
-  });
+  const [insight, setInsight] = useState<string>("Loading healthy tips...");
 
   useEffect(() => {
     const fetchInsight = async () => {
@@ -24,113 +19,80 @@ const Dashboard: React.FC<DashboardProps> = ({ stats }) => {
   }, [stats]);
 
   return (
-    <div className="p-6 pb-28 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* Top Header */}
-      <header className="flex justify-between items-start mb-6 pt-4">
-        <div className="flex-1">
-          <h1 className="text-3xl font-medium tracking-tight">
-            Welcome, <span className="font-bold text-[#a7c4bc]">Alex!</span> here's your health snapshot for today!
-          </h1>
-          <p className="text-gray-400 text-sm mt-1">Today is {currentDate}</p>
+    <div className="space-y-8 animate-in fade-in duration-700">
+      {/* Search and Welcome Header */}
+      <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <h2 className="text-4xl font-black tracking-tight text-gray-900">Health Dashboard</h2>
+          <p className="text-gray-400 font-medium mt-1">Ready to smash your goals today, Alex?</p>
         </div>
-        <div className="flex items-center space-x-3">
-          <button className="p-2 glass rounded-full">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-          </button>
-          <img src="https://picsum.photos/seed/alex/100" className="w-10 h-10 rounded-full border-2 border-[#a7c4bc]" alt="Profile" />
+        <div className="relative w-full lg:w-96">
+          <input 
+            type="text" 
+            placeholder="Search activities, trainers..." 
+            className="w-full bg-white border border-gray-100 rounded-2xl py-4 px-14 focus:outline-none focus:ring-2 focus:ring-black/5 transition-all shadow-sm"
+          />
+          <svg className="w-6 h-6 absolute left-5 top-1/2 -translate-y-1/2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
         </div>
       </header>
 
-      {/* Search Bar */}
-      <div className="relative mb-8">
-        <input 
-          type="text" 
-          placeholder="Search..." 
-          className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-12 focus:outline-none focus:ring-1 focus:ring-[#a7c4bc] transition-all placeholder:text-gray-500"
+      {/* Hero Workout Section */}
+      <section className="relative group overflow-hidden rounded-[3rem] h-[400px] shadow-2xl">
+        <img 
+          src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=2000" 
+          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
+          alt="Featured Workout" 
         />
-        <svg className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-      </div>
-
-      {/* Stats Section */}
-      <section className="mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold">Today's stats</h2>
-          <button className="text-sm text-gray-400 font-medium">View more</button>
-        </div>
-        <div className="flex space-x-4 overflow-x-auto scroll-hide pb-2">
-          {/* Steps Card */}
-          <div className="min-w-[160px] glass p-4 rounded-[2rem] flex flex-col justify-between">
-            <div>
-              <p className="text-xs text-gray-400 font-medium mb-1">Step to walk</p>
-              <h3 className="text-lg font-bold">{stats.steps.toLocaleString()} steps</h3>
-            </div>
-            <div className="flex items-center justify-between mt-4">
-               <span className="text-[10px] px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full font-bold uppercase">Good</span>
-               <div className="w-8 h-8 rounded-full green-gradient flex items-center justify-center">
-                 <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-               </div>
-            </div>
-          </div>
-
-          {/* Calorie Card */}
-          <div className="min-w-[160px] glass p-4 rounded-[2rem] flex flex-col justify-between">
-            <div>
-              <p className="text-xs text-gray-400 font-medium mb-1">Cal burnt</p>
-              <h3 className="text-lg font-bold">{stats.calories} KCAL</h3>
-            </div>
-            <div className="flex items-center justify-between mt-4">
-               <span className="text-[10px] px-2 py-0.5 bg-orange-500/20 text-orange-400 rounded-full font-bold uppercase">Average</span>
-               <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center shadow-[0_0_10px_rgba(249,115,22,0.5)]">
-                 <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M13.5 1.5s0 3-1.5 4.5c-1.5-1.5-1.5-4.5-1.5-4.5s-3 3-3 6c0 3 2.25 4.5 4.5 4.5s4.5-1.5 4.5-4.5c0-3-3-6-3-6z"/></svg>
-               </div>
-            </div>
-          </div>
-
-          {/* Distance Card */}
-          <div className="min-w-[160px] glass p-4 rounded-[2rem] flex flex-col justify-between">
-            <div>
-              <p className="text-xs text-gray-400 font-medium mb-1">Distance</p>
-              <h3 className="text-lg font-bold">{stats.distance} KM</h3>
-            </div>
-            <div className="flex items-center justify-between mt-4">
-               <span className="text-[10px] px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded-full font-bold uppercase">Great</span>
-               <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
-                 <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>
-               </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
+        <div className="absolute inset-0 p-12 flex flex-col justify-center max-w-2xl">
+          <span className="bg-white/20 backdrop-blur-xl text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest w-fit mb-6">Trending Now</span>
+          <h3 className="text-6xl font-black text-white leading-tight mb-4">Mindful Flow <br/> & Core Stability</h3>
+          <p className="text-gray-200 text-lg mb-8 max-w-lg">A 45-minute intermediate session designed to build strength through control and breath. Perfect for midweek recovery.</p>
+          <div className="flex items-center space-x-6">
+            <button className="bg-white text-black px-10 py-4 rounded-2xl font-black hover:bg-gray-100 transition-colors shadow-lg">Start Session</button>
+            <div className="flex items-center space-x-4 text-white">
+              <span className="flex items-center text-sm font-bold opacity-80"><svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/></svg> 45 Min</span>
+              <span className="flex items-center text-sm font-bold opacity-80"><svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM5.884 6.98a1 1 0 00-1.458-1.366l-.707.707a1 1 0 101.415 1.415l.75-.756zM5 11a1 1 0 100-2H4a1 1 0 100 2h1zM8 16.5a1 1 0 100-2H7a1 1 0 100 2h1zM16 11a1 1 0 100-2h-1a1 1 0 100 2h1zM13 3a1 1 0 10-2 0v1a1 1 0 102 0V3z"/></svg> 320 kcal</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Today's Workout Card */}
-      <section className="mb-4">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold">Today's workout</h2>
-          <button className="text-sm text-gray-400 font-medium">View more</button>
-        </div>
-        <div className="relative group overflow-hidden rounded-[2.5rem] h-48">
-          <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=800" className="absolute inset-0 w-full h-full object-cover grayscale-[30%] group-hover:scale-105 transition-transform duration-700" alt="Workout" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-          <div className="absolute inset-0 p-6 flex flex-col justify-center">
-            <h3 className="text-2xl font-extrabold text-white max-w-[180px] leading-tight mb-1">Upper body strength</h3>
-            <p className="text-gray-300 text-sm">16 exercises</p>
-            <div className="flex items-center space-x-3 mt-4">
-              <span className="px-3 py-1 glass rounded-full text-[10px] font-bold">🔥 350 Cal</span>
-              <span className="px-3 py-1 glass rounded-full text-[10px] font-bold">⏱️ 40 Min</span>
+      {/* Quick Stats Grid */}
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { label: 'Steps Today', value: stats.steps.toLocaleString(), unit: 'steps', color: 'bg-green-500', icon: '👟' },
+          { label: 'Calories', value: stats.calories, unit: 'kcal', color: 'bg-orange-500', icon: '🔥' },
+          { label: 'Distance', value: stats.distance, unit: 'km', color: 'bg-blue-500', icon: '📍' },
+          { label: 'Heart Rate', value: stats.heartRate, unit: 'bpm', color: 'bg-red-500', icon: '❤️' },
+        ].map((item) => (
+          <div key={item.label} className="widget-card flex flex-col justify-between h-48 group">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">{item.label}</p>
+                <h4 className="text-3xl font-black">{item.value} <span className="text-sm font-normal text-gray-400">{item.unit}</span></h4>
+              </div>
+              <div className={`w-12 h-12 ${item.color} rounded-2xl flex items-center justify-center text-xl shadow-lg`}>
+                {item.icon}
+              </div>
+            </div>
+            <div className="mt-4 flex items-center text-green-500 font-bold text-xs">
+              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd"/></svg>
+              12% from yesterday
             </div>
           </div>
-          <button className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white text-black flex items-center justify-center shadow-lg active:scale-90 transition-transform">
-            <svg className="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-        </div>
+        ))}
       </section>
 
-      {/* Insight Card */}
-      <div className="mt-4 p-4 glass rounded-3xl border-l-4 border-[#a7c4bc]">
-        <div className="flex items-center mb-1">
-          <span className="text-[10px] font-black tracking-widest text-[#a7c4bc] uppercase">AI Assistant</span>
+      {/* AI Insight Bar */}
+      <div className="widget-card bg-[#F0F4FF] border border-blue-100 flex items-center space-x-6 p-8">
+        <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-200">
+           <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
         </div>
-        <p className="text-xs text-gray-300 italic">"{insight}"</p>
+        <div>
+           <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">Coach Zenith Insight</p>
+           <p className="text-xl font-bold text-blue-900">"{insight}"</p>
+        </div>
       </div>
     </div>
   );

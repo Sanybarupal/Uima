@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BarChart, Bar, XAxis, ResponsiveContainer, Cell, LineChart, Line } from 'recharts';
+import { BarChart, Bar, XAxis, ResponsiveContainer, Cell, LineChart, Line, Tooltip, AreaChart, Area } from 'recharts';
 
 const moodData = [
   { day: 'Sun', value: 30, color: '#FF4B4B' },
@@ -12,210 +12,170 @@ const moodData = [
   { day: 'Sat', value: 70, color: '#00D100' },
 ];
 
+const sleepData = [
+  { day: 'S', hours: 7.2 }, { day: 'M', hours: 6.8 }, { day: 'T', hours: 8.1 },
+  { day: 'W', hours: 7.5 }, { day: 'T', hours: 6.0 }, { day: 'F', hours: 7.8 },
+  { day: 'S', hours: 8.5 }
+];
+
 const heartbeatData = [
-  { time: 0, val: 70 }, { time: 1, val: 72 }, { time: 2, val: 89 }, 
-  { time: 3, val: 75 }, { time: 4, val: 80 }, { time: 5, val: 89 }, 
-  { time: 6, val: 78 }
+  { time: 0, val: 68 }, { time: 1, val: 72 }, { time: 2, val: 89 }, 
+  { time: 3, val: 75 }, { time: 4, val: 82 }, { time: 5, val: 95 }, 
+  { time: 6, val: 78 }, { time: 7, val: 72 }, { time: 8, val: 65 }
 ];
 
 const Stats: React.FC = () => {
   return (
-    <div className="p-4 pb-32 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in duration-700">
-      
-      {/* Target Statistics */}
-      <div className="widget-card col-span-1">
-        <div className="flex justify-between items-start mb-4">
-          <h3 className="font-bold text-lg leading-tight">Target<br/>Statistics</h3>
-          <span className="w-5 h-5 flex items-center justify-center rounded-full bg-gray-100 text-[10px] text-gray-400">i</span>
-        </div>
-        <div className="flex items-center space-x-6">
-          <div className="relative w-28 h-28">
-            <svg className="w-full h-full transform -rotate-90">
-              <circle cx="56" cy="56" r="48" stroke="#f3f4f6" strokeWidth="8" fill="transparent" />
-              <circle cx="56" cy="56" r="48" stroke="#FF6B00" strokeWidth="8" fill="transparent" strokeDasharray="301" strokeDashoffset="100" strokeLinecap="round" />
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-xl font-bold">237</span>
-              <span className="text-[10px] text-gray-400 uppercase">kcal</span>
-            </div>
-          </div>
-          <div className="flex-1 space-y-2">
-            <div>
-              <p className="text-sm font-bold">365 kcal</p>
-              <p className="text-[10px] text-gray-400">Target</p>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-gray-400">128 kcal</p>
-              <p className="text-[10px] text-gray-400">Remaining</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+      <header className="mb-10">
+        <h2 className="text-4xl font-black tracking-tight text-gray-900">Your Progress</h2>
+        <p className="text-gray-400 font-medium">Detailed biometric and activity tracking for this month.</p>
+      </header>
 
-      {/* Hydration */}
-      <div className="widget-card col-span-1">
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center space-x-2">
-            <span className="text-xl">🥛</span>
-            <span className="text-xl font-bold">13.8 liters</span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        {/* Main Statistics Visual (Large Bento) */}
+        <div className="lg:col-span-8 widget-card bg-black text-white p-10 min-h-[400px] flex flex-col">
+          <div className="flex justify-between items-center mb-12">
+            <h3 className="text-2xl font-black">Performance Trends</h3>
+            <div className="flex space-x-6 text-xs font-bold text-gray-400">
+               <span className="flex items-center"><span className="w-2 h-2 rounded-full bg-green-500 mr-2" /> Stand</span>
+               <span className="flex items-center"><span className="w-2 h-2 rounded-full bg-orange-500 mr-2" /> Exercise</span>
+               <span className="flex items-center"><span className="w-2 h-2 rounded-full bg-blue-500 mr-2" /> Move</span>
+            </div>
           </div>
-        </div>
-        <div className="flex items-end space-x-4 h-24 mb-2">
-          <div className="flex-1 bg-gray-100 rounded-t-lg relative group h-[80%]">
-            <div className="absolute bottom-0 w-full bg-green-500 rounded-t-lg h-[40%]" />
-            <p className="absolute -top-6 w-full text-center text-[10px] text-gray-400">2.4L</p>
-          </div>
-          <div className="flex-1 bg-gray-100 rounded-t-lg relative h-[60%]">
-            <div className="absolute bottom-0 w-full bg-yellow-400 rounded-t-lg h-[35%]" />
-            <p className="absolute -top-6 w-full text-center text-[10px] text-gray-400">1.8L</p>
-          </div>
-          <div className="flex-1 bg-gray-100 rounded-t-lg relative h-[45%]">
-            <div className="absolute bottom-0 w-full bg-orange-500 rounded-t-lg h-[25%]" />
-            <p className="absolute -top-6 w-full text-center text-[10px] text-gray-400">1.3L</p>
-          </div>
-        </div>
-        <div className="flex justify-between px-2">
-          <span className="flex items-center text-[8px] uppercase font-bold text-gray-400"><span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-1" /> 40%</span>
-          <span className="flex items-center text-[8px] uppercase font-bold text-gray-400"><span className="w-1.5 h-1.5 rounded-full bg-yellow-400 mr-1" /> 35%</span>
-          <span className="flex items-center text-[8px] uppercase font-bold text-gray-400"><span className="w-1.5 h-1.5 rounded-full bg-orange-500 mr-1" /> 25%</span>
-        </div>
-      </div>
-
-      {/* Stats - Stand/Exercise/Move */}
-      <div className="widget-card col-span-1 md:col-span-2 bg-[#1A1A1A] text-white">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-bold">Statistics</h3>
-          <div className="flex space-x-6 text-[10px] font-bold text-gray-500">
-            <span>Stand</span>
-            <span>Exercise</span>
-            <span>Move</span>
-          </div>
-        </div>
-        <div className="space-y-6">
-          {['Stand', 'Exercise', 'Move'].map((label, idx) => (
-            <div key={label} className="flex items-center">
-              <div className="w-24 text-[10px] text-gray-400 font-bold uppercase">{label}</div>
-              <div className="flex-1 flex space-x-0.5 items-end h-6">
-                {Array.from({ length: 40 }).map((_, i) => (
-                  <div 
-                    key={i} 
-                    className={`w-1 rounded-full ${
-                      idx === 0 ? (i > 20 && i < 30 ? 'bg-green-500 h-6' : 'bg-gray-800 h-1') :
-                      idx === 1 ? (i > 15 && i < 35 ? 'bg-orange-500 h-6' : 'bg-gray-800 h-1') :
-                      'bg-blue-500 h-1'
-                    }`} 
-                  />
-                ))}
+          
+          <div className="space-y-10 flex-1 flex flex-col justify-center">
+            {['Stand', 'Exercise', 'Move'].map((label, idx) => (
+              <div key={label} className="flex items-center group">
+                <div className="w-32 text-sm text-gray-500 font-black uppercase tracking-widest transition-colors group-hover:text-white">{label}</div>
+                <div className="flex-1 flex space-x-1 items-end h-10">
+                  {Array.from({ length: 50 }).map((_, i) => (
+                    <div 
+                      key={i} 
+                      className={`w-1 rounded-full transition-all duration-500 ${
+                        idx === 0 ? (i > 25 && i < 40 ? 'bg-green-500 h-10' : 'bg-gray-800 h-2 group-hover:bg-gray-700') :
+                        idx === 1 ? (i > 10 && i < 35 ? 'bg-orange-500 h-10' : 'bg-gray-800 h-2 group-hover:bg-gray-700') :
+                        (i > 15 && i < 45 ? 'bg-blue-500 h-10' : 'bg-gray-800 h-2 group-hover:bg-gray-700')
+                      }`} 
+                    />
+                  ))}
+                </div>
               </div>
+            ))}
+          </div>
+          
+          <div className="mt-12 pt-10 border-t border-gray-800 grid grid-cols-3 gap-8">
+            <div className="text-center">
+              <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Calories</p>
+              <p className="text-4xl font-black">4,280 <span className="text-sm font-normal text-gray-600">kcal</span></p>
             </div>
-          ))}
-        </div>
-        <div className="mt-6 grid grid-cols-3 gap-2">
-          <div className="text-center">
-             <p className="text-lg font-bold">375/500 cal</p>
-          </div>
-          <div className="text-center border-l border-gray-800">
-             <p className="text-lg font-bold">19/30 min</p>
-          </div>
-          <div className="text-center border-l border-gray-800">
-             <p className="text-lg font-bold">4/12 hrs</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Personal Data */}
-      <div className="widget-card">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="font-bold">Personal Data</h3>
-          <span className="w-5 h-5 flex items-center justify-center rounded-full bg-gray-100 text-[10px] text-gray-400">i</span>
-        </div>
-        <div className="space-y-3">
-          {[
-            { l: 'Height', v: '5.79 ft' },
-            { l: 'Weight', v: '173 lbs' },
-            { l: 'Heart Beat', v: '89 bpm' },
-            { l: 'BMI', v: '27.98' },
-            { l: 'Hemoglobin', v: '14 gm' },
-          ].map((item) => (
-            <div key={item.l} className="flex justify-between border-b border-gray-50 pb-1">
-              <span className="text-xs text-gray-400 font-medium">{item.l}</span>
-              <span className="text-xs font-bold">{item.v}</span>
+            <div className="text-center border-x border-gray-800">
+              <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Active Time</p>
+              <p className="text-4xl font-black">12.5 <span className="text-sm font-normal text-gray-600">hrs</span></p>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Heart Beat */}
-      <div className="widget-card flex flex-col justify-between">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <span className="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center">❤️</span>
-            <span className="text-2xl font-bold">89 <span className="text-xs text-gray-400 font-normal">bpm</span></span>
+            <div className="text-center">
+              <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Move Goal</p>
+              <p className="text-4xl font-black">82<span className="text-sm font-normal text-gray-600">%</span></p>
+            </div>
           </div>
-          <span className="w-5 h-5 flex items-center justify-center rounded-full bg-gray-100 text-[10px] text-gray-400">i</span>
         </div>
-        <div className="h-16 w-full my-4">
-           <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={heartbeatData}>
-                <Line type="monotone" dataKey="val" stroke="#1A1A1A" strokeWidth={2} dot={false} />
+
+        {/* Personal Data Bento */}
+        <div className="lg:col-span-4 widget-card p-10 flex flex-col">
+          <div className="flex justify-between items-start mb-10">
+            <h3 className="text-2xl font-black">Biometrics</h3>
+            <div className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </div>
+          </div>
+          <div className="space-y-6 flex-1">
+            {[
+              { label: 'Height', val: '5.79 ft', icon: '📏' },
+              { label: 'Weight', val: '173 lbs', icon: '⚖️' },
+              { label: 'Heart Beat', val: '89 bpm', icon: '❤️' },
+              { label: 'BMI', val: '27.98', icon: '📉' },
+              { label: 'Hemoglobin', val: '14 gm', icon: '🩸' },
+              { label: 'Blood Pressure', val: '120/80', icon: '🩺' },
+            ].map(item => (
+              <div key={item.label} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl hover:bg-white hover:shadow-md transition-all border border-transparent hover:border-gray-100">
+                <div className="flex items-center space-x-4">
+                  <span className="text-xl">{item.icon}</span>
+                  <span className="text-sm font-bold text-gray-500">{item.label}</span>
+                </div>
+                <span className="font-black text-gray-900">{item.val}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Heart Rate Area Chart */}
+        <div className="lg:col-span-4 widget-card p-10">
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Resting Heart Rate</p>
+              <h4 className="text-4xl font-black">72 <span className="text-sm font-normal">bpm</span></h4>
+            </div>
+            <div className="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center shadow-lg shadow-red-100">
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/></svg>
+            </div>
+          </div>
+          <div className="h-48 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={heartbeatData}>
+                <defs>
+                  <linearGradient id="colorHeart" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#EF4444" stopOpacity={0.1}/>
+                    <stop offset="95%" stopColor="#EF4444" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <Area type="monotone" dataKey="val" stroke="#EF4444" strokeWidth={3} fillOpacity={1} fill="url(#colorHeart)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Daily Mood Bento */}
+        <div className="lg:col-span-4 widget-card p-10">
+          <h3 className="text-2xl font-black mb-8 flex items-center">
+             <span className="mr-3">🧘</span> Weekly Mood
+          </h3>
+          <div className="h-48 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={moodData}>
+                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94a3b8', fontWeight: 'bold' }} />
+                <Bar dataKey="value" radius={[10, 10, 10, 10]} barSize={30}>
+                  {moodData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Sleep Pattern Bento */}
+        <div className="lg:col-span-4 widget-card p-10 bg-indigo-900 text-white">
+          <div className="flex justify-between items-start mb-8">
+            <div>
+              <h3 className="text-2xl font-black">Sleep Pattern</h3>
+              <p className="text-indigo-300 text-sm font-medium">Avg. 7.5 hrs / night</p>
+            </div>
+            <span className="text-3xl">🌙</span>
+          </div>
+          <div className="h-40 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={sleepData}>
+                <Line type="stepAfter" dataKey="hours" stroke="#818CF8" strokeWidth={4} dot={{ r: 4, fill: '#fff' }} />
               </LineChart>
-           </ResponsiveContainer>
-        </div>
-        <div>
-          <h4 className="font-bold text-sm">Heart Beat</h4>
-          <p className="text-[10px] text-gray-400">You are calm and ready!</p>
-        </div>
-      </div>
-
-      {/* Running History */}
-      <div className="widget-card col-span-1 md:col-span-2">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h3 className="text-lg font-bold">Running History</h3>
-            <button className="text-[10px] bg-gray-100 px-2 py-1 rounded-lg font-bold mt-1">Monthly ▾</button>
+            </ResponsiveContainer>
           </div>
-          <div className="flex -space-x-2">
-            <img src="https://picsum.photos/seed/1/32" className="w-8 h-8 rounded-full border-2 border-white" />
-            <img src="https://picsum.photos/seed/2/32" className="w-8 h-8 rounded-full border-2 border-white" />
-            <img src="https://picsum.photos/seed/3/32" className="w-8 h-8 rounded-full border-2 border-white" />
+          <div className="mt-6 flex justify-between px-2">
+            {sleepData.map(d => <span key={d.day} className="text-[10px] font-bold text-indigo-400">{d.day}</span>)}
           </div>
         </div>
-        <div className="grid grid-cols-7 gap-2 text-center text-[10px] font-bold text-gray-300">
-           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => <span key={d}>{d}</span>)}
-           {Array.from({ length: 30 }).map((_, i) => {
-             const day = i + 1;
-             const isActive = [1, 2, 5, 6, 11, 14, 15, 17, 22, 24, 25, 26, 27].includes(day);
-             return (
-               <span key={i} className={`w-8 h-8 flex items-center justify-center rounded-full mx-auto ${isActive ? 'bg-[#546FFF] text-white' : 'text-gray-900'}`}>
-                 {day}
-               </span>
-             );
-           })}
-        </div>
-      </div>
 
-      {/* Daily Mood */}
-      <div className="widget-card col-span-1 md:col-span-2">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center space-x-2">
-             <span className="text-xl">😊</span>
-             <h3 className="font-bold">Daily Mood</h3>
-          </div>
-        </div>
-        <div className="h-40 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={moodData}>
-              <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#9ca3af' }} />
-              <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                {moodData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
       </div>
-
     </div>
   );
 };
